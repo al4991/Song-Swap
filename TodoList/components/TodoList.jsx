@@ -1,14 +1,17 @@
 import React from 'react'; 
 import { Text, View, TextInput, Button } from 'react-native';
 
-import ListItem from './ListItem'
+
+import ListItem from './ListItem';
+import Stack from './stack';
+
 const styles = {   
     container : {
         display: "flex", 
         flexDirection: "column", 
         justifyContent: "flex-start",
         alignItems: "stretch",
-
+        flex: 100
     },
     inputBox : {
         backgroundColor: "#A6BAF9", 
@@ -35,12 +38,24 @@ const styles = {
     },
     inputButton: { 
         flex: 1,
+    },
+    undoButtonContainer: {
+        flex: 1,
+        marginLeft: "10%", 
+        marginRight: "10%"
+    }, 
+    parentContainer: { 
+        display: "flex", 
+        flexDirection: "column", 
+        justifyContent: "flex-end",
+        alignItems: "stretch"
     }
 }
 
 export default function TodoList() {
     const [value, onChangeText] = React.useState('');
-    const [list, onChangeList] = React.useState(['beep', 'beep', 'lechuga']);
+    const [list, onChangeList] = React.useState([]);
+    const [stack, onChangeStack] = React.useState(Stack());
     const onPress = () => { 
         const items = [...list];
         items.push(value); 
@@ -50,29 +65,49 @@ export default function TodoList() {
     }
     const deleteItem = (elem) => { 
         onChangeList(([...list]).filter((ele, i) => i !== elem));
+        console.log("in deleteitem" , elem)
+        stack.push(list[elem])
+        onChangeStack(stack);
     }
     
+    const undo = () => { 
+        onChangeList( () => {
+            let items = [...list, stack.pop()];
+            onChangeStack(stack);
+            return items;
+        });
+    }
+    console.log(stack.length); 
+    console.log(stack.getHead().getValue())
     return (
-        <View style={styles.container}> 
-            <View style={styles.inputContainer}>
-                <TextInput 
-                    style={styles.inputBox}
-                    onChangeText={text => onChangeText(text)}
-                    value={value}
-                    placeholder="Add an Item"
-                />
-                <Button
-                    style={styles.inputButton}
-                    color="#A938F4"
-                    title="Add"
-                    onPress={() => onPress()}
-                    disabled={value === ''}
-                /> 
+        <View style={styles.parentContainer}>
+            <View style={styles.container}> 
+                <View style={styles.inputContainer}>
+                    <TextInput 
+                        style={styles.inputBox}
+                        onChangeText={text => onChangeText(text)}
+                        value={value}
+                        placeholder="Add an Item"
+                    />
+                    <Button
+                        style={styles.inputButton}
+                        color="#A938F4"
+                        title="Add"
+                        onPress={() => onPress()}
+                        disabled={value === ''}
+                    /> 
+                </View>
+                { 
+                    list.map((elem, ind) => <ListItem key={ind} onPress={() => deleteItem(ind)} item={elem}/>)
+                }
+                
             </View>
-            { 
-                list.map((elem, ind) => <ListItem key={ind} onPress={() => deleteItem(ind)} item={elem}/>)
-            }
-            
+            <Button 
+                title="Undo"
+                style={styles.undoButtonContainer}
+                onPress={() => undo()}
+                disabled={stack.length() === 0}
+            />
         </View>
     )
 }

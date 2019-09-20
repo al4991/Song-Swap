@@ -42,14 +42,12 @@ export default function ListItem(props) {
     return ( 
         <View style={{...styles.container, ...borderColor}}> 
             <Text style={styles.itemText}>
-              {props.item}
+            {props.item}
             </Text>
             <View style={styles.buttonWrapper}> 
                 <Button
                     title="-"
-                    onPress={() => 
-                            props.onPress()
-                    }
+                    onPress={() => props.onPress()}
                 /> 
             </View>
             <View style={styles.buttonWrapper}> 
