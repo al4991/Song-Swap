@@ -15,11 +15,11 @@ const styles = StyleSheet.create({
     flexDirection: "row", 
     alignItems: "center", 
     justifyContent: "center",
-    fontSize: 50, 
   }, 
   content: {
     flex: 1,
-    justifyContent: "space-evenly"
+    justifyContent: "flex-start", 
+
   },
   footer: { 
     justifyContent: "center",
