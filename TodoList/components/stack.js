@@ -35,11 +35,9 @@ export default function Stack(init = null) {
     }
 
     function push(val) {
-        console.log(val)
         const newHead = new Node(head, val);
         head = newHead;
         len += 1; 
-        console.log("in push", length); 
         return this;
     }
     function length(){
