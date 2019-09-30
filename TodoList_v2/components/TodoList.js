@@ -5,25 +5,11 @@ import TodoItem from './TodoItem';
 
 
 const styles = {  
-    
     pageContainer: {
         flex: 1,
         flexDirection: 'column',
         backgroundColor: '#8088F6',
         alignItems: 'stretch',
-    }, 
-    header: {
-        height: 100,
-        backgroundColor: "#5A65FB",
-        flexDirection: "column", 
-        alignItems: "center", 
-        justifyContent: "flex-end",
-    }, 
-    headerText: { 
-        textAlign: "center",
-        fontSize: 40, 
-        color: "white",
-        marginBottom: 10
     }, 
     content: {
         flex: 1,
@@ -62,9 +48,6 @@ const styles = {
         height: 50,
         marginLeft: 10,
         marginRight: 10,
-    }, 
-    listItem: { 
-        flex: 1
     },
     listContainer: {
         flex: 1,
@@ -75,13 +58,8 @@ const styles = {
         flexDirection: "row", 
         alignItems: "center", 
         padding: 10,
-        // padding: "1%",
         height: 75,
         justifyContent: "space-evenly",
-        // marginTop: "5%", 
-        // marginBottom: "5%",
-        // marginLeft: "10%", 
-        // marginRight: "10%",
     },
     inputButton: { 
         backgroundColor: "#6C3CF2",
@@ -145,50 +123,47 @@ export default function TodoList(props) {
     return (
 
     <View style={styles.pageContainer}>
-      {/* <View style={styles.header}>
-        <Text style={styles.headerText}> To-do List</Text>
-      </View> */}
-      <View style={styles.content}>
-      <View style={styles.parentContainer}>
-            <View style={styles.container}> 
-                <View style={styles.inputContainer}>
-                    <TextInput 
-                        style={styles.inputBox}
-                        onChangeText={text => onChangeText(text)}
-                        value={value}
-                        placeholder="Add an Item"
-                    />
-                    <View style={styles.inputButton} >
-                        <Button
-                            color="#A938F4"
-                            title="Add"
-                            onPress={() => onPress()}
-                            disabled={value === ''}
-                        /> 
+        <View style={styles.content}>
+            <View style={styles.parentContainer}>
+                <View style={styles.container}> 
+                    <View style={styles.inputContainer}>
+                        <TextInput 
+                            style={styles.inputBox}
+                            onChangeText={text => onChangeText(text)}
+                            value={value}
+                            placeholder="Add an Item"
+                        />
+                        <View style={styles.inputButton} >
+                            <Button
+                                color="white"
+                                title="Add"
+                                onPress={() => onPress()}
+                                disabled={value === ''}
+                            /> 
+                        </View>
                     </View>
+                
+                    <FlatList style={styles.listContainer}
+                        data={list}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={
+                            ({item, index}) =>  
+                                <TodoItem key={index} toItemPage = {() => toItemPage(index)} onPress={() => deleteItem(index)} item={item}/>
+                        }
+                    />
                 </View>
-              
-                <FlatList style={styles.listContainer}
-                    data={list}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={
-                        ({item, index}) =>  
-                            <TodoItem key={index} toItemPage = {() => toItemPage(index)} onPress={() => deleteItem(index)} item={item}/>
-                    }
-                />
-       
-               
             </View>
-            
         </View>
-      </View>
       <View style={styles.footer}>
         <Button 
+            color="white"
+
             title="Undo"
             onPress={() => undo()}
             disabled={stack.length === 0}
         />
         <Button 
+            color="white"
             title="History"
             onPress={() => toHistory()}
         />
