@@ -1,19 +1,30 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { createAppContainer } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+
+import { createStore, applyMiddleware } from 'redux'; 
+import { Provider } from 'react-redux'; 
+import thunk from 'redux-thunk';
+
+import reducer from './reducer'; 
+import MainScreen from './screens/MainScreen';
+import AccountScreen from './screens/AccountScreen';
+import CollectionScreen from './screens/CollectionScreen';
+
+const screens = { 
+  Main: { screen: MainScreen },
+  Account: { screen: AccountScreen },
+  Collection: { screen: CollectionScreen }
+}
+const MainNavigator = createBottomTabNavigator(screens, { initialRouteName: 'Main' }); 
+const AppContainer = createAppContainer(MainNavigator); 
+
+const store = createStore(reducer, applyMiddleware(thunk)); 
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
+    <Provider store={store}> 
+      <AppContainer />
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
