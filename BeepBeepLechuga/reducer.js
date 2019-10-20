@@ -1,9 +1,15 @@
-import { ADD_SONG, SET_TITLE, SET_ARTIST } from './types'; 
+import { ADD_SONG, SET_TITLE, SET_ARTIST, SET_RECEIVED, SET_HISTORY} from './types'; 
 import db from './firebaseConfig';
+import { StackViewStyleInterpolator } from 'react-navigation-stack';
 
 const INITIAL_STATE = {
     title: '',
-    artist: ''
+    artist: '',
+    lastSong: { 
+        title: '', 
+        artist: '', 
+    }, 
+    history: [],
 }
 
 export default function reducer(state = INITIAL_STATE, action) { 
@@ -14,22 +20,6 @@ export default function reducer(state = INITIAL_STATE, action) {
                 'title' : '', 
                 'artist': ''
             }
-            // let { title, artist } = state; 
-            // db.collection('songs').add({
-            //     artist: artist, 
-            //     count: 3, 
-            //     name: title, 
-            // })
-            // .then(() => {
-            //     console.log('yeet')
-            //     return {
-            //         ...state, 
-            //         'title' : 'test', 
-            //         'artist': 'test'
-            //     }
-            // })
-            // .catch(err => console.log(err))
-            
         }
         case SET_TITLE: {
             let { title } = state; 
@@ -46,6 +36,32 @@ export default function reducer(state = INITIAL_STATE, action) {
                 ...state, 
                 artist
             }
+        }
+        case SET_RECEIVED: { 
+            let lastReceived = action.payload;
+            return {
+                ...state, 
+                lastSong : {
+                    ...lastReceived
+                }
+            }
+        }
+        case SET_HISTORY: { 
+            let history = [...action.payload]
+            if (history.length > 0 && state.lastSong.title === '') { 
+                return { 
+                    ...state, 
+                    lastSong : {
+                        ...history[history.length - 1]
+                    }, 
+                    history
+                }
+            }
+            return {
+                ...state, 
+                history
+            }
+
         }
         default: {
             return state; 

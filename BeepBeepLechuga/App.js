@@ -8,12 +8,12 @@ import thunk from 'redux-thunk';
 
 import reducer from './reducer'; 
 import MainScreen from './screens/MainScreen';
-import AccountScreen from './screens/AccountScreen';
 import CollectionScreen from './screens/CollectionScreen';
+import ReceivedScreen from './screens/ReceivedScreen';
 
 const screens = { 
   Main: { screen: MainScreen },
-  Account: { screen: AccountScreen },
+  Received: { screen: ReceivedScreen },
   Collection: { screen: CollectionScreen }
 }
 const MainNavigator = createBottomTabNavigator(screens, { initialRouteName: 'Main' }); 

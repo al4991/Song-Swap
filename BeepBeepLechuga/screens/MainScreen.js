@@ -4,8 +4,7 @@ import { Text, Button, Title, Card, TextInput } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { setTitle, setArtist, addSongThunk } from './../actions';
-import db from '../firebaseConfig';
+import { setTitle, setArtist, swapSong, retrieveHistory } from './../actions';
 
 
 const styles = StyleSheet.create({
@@ -29,24 +28,10 @@ const styles = StyleSheet.create({
 })
 
 class MainScreen extends Component {
-
     componentDidMount() {
-        db.collection('songs').get()
-        .then(docs => {
-            docs.forEach(doc =>
-                {
-                if (doc.exists) { 
-                    console.log(doc.data()); 
-                   
-                }
-            }   
-            )
-        })
-        .catch(err => console.log('Error ', + err))
+        this.props.retrieveHistory(); 
     }
-
     render() { 
-        console.log("PROPS\n\n", this.props)
         return ( 
             <View style={styles.container}> 
                 <Card style={{elevation: 10 }}> 
@@ -66,7 +51,10 @@ class MainScreen extends Component {
                         />
                     </Card.Content>
                     <Card.Actions style={styles.cardActionsContainer}> 
-                        <Button mode="outlined" onPress={() => this.props.addSongThunk()}> 
+                        <Button mode="outlined" onPress={() => {
+                            this.props.navigation.navigate('Received')
+                            return this.props.swapSong()}
+                        }> 
                             Swap! 
                         </Button>    
                     </Card.Actions>
@@ -85,7 +73,8 @@ const mapDispatchToProps = (dispatch) => (
     bindActionCreators({ 
         setTitle, 
         setArtist,
-        addSongThunk,
+        swapSong,
+        retrieveHistory
     }, dispatch)
 )
 export default connect(mapStateToProps, mapDispatchToProps)(MainScreen)
