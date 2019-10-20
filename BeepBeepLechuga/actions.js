@@ -66,7 +66,7 @@ export const swapSong = function() {
         }
     }
 
-    const retrieveSong = (dispatch, history) => { 
+    const retrieveSong = async (dispatch, history) => { 
         let key = songs.doc().id; 
         songs.where(firebase.firestore.FieldPath.documentId(), '>=', key)
         .limit(1).get()
@@ -84,23 +84,23 @@ export const swapSong = function() {
             }
             else {
                 snapshot.forEach(doc => {
-                    dispatch(setReceivedSong({ title: doc.data().name, artist: doc.data().artist })); 
                     updateHistory(dispatch, history, doc.data().name, doc.data().artist);
+                    dispatch(setReceivedSong({ title: doc.data().name, artist: doc.data().artist })); 
                 });
             }
         })
         
     }
    
-    return (dispatch, getState) => {
+    return async (dispatch, getState) => {
         const { title, artist, history } = getState();
         songs.add({ 
             artist: artist, 
             count: 3, 
             name: title
         })
-        .then(() => { 
-            retrieveSong(dispatch, history);
+        .then(async () => { 
+            await retrieveSong(dispatch, history);
             dispatch(addSong()); 
         })
         .catch(err => console.log(err));

@@ -37,7 +37,7 @@ class MainScreen extends Component {
                 <Card style={{elevation: 10 }}> 
                     <Card.Content>
                         <Title style={styles.titleStyle}> 
-                            Howdy partner
+                            Put in a song!
                         </Title>
                         <TextInput
                         label='title'
@@ -51,9 +51,10 @@ class MainScreen extends Component {
                         />
                     </Card.Content>
                     <Card.Actions style={styles.cardActionsContainer}> 
-                        <Button mode="outlined" onPress={() => {
+                        <Button onPress={async () => {
+                            await this.props.swapSong();
                             this.props.navigation.navigate('Received')
-                            return this.props.swapSong()}
+                        }
                         }> 
                             Swap! 
                         </Button>    

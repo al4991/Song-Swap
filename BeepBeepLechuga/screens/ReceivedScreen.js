@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { View, StyleSheet} from 'react-native'; 
-import { Text, Button, Title, Card, TextInput } from 'react-native-paper';
+import { Text, Title, Card } from 'react-native-paper';
 import { bindActionCreators } from 'redux'; 
 import { connect } from 'react-redux';
 
@@ -30,11 +30,13 @@ const styles = StyleSheet.create({
 })
 
 class ReceivedScreen extends Component {   
-
     render() { 
         return ( 
             <View style={styles.container}> 
-                <Card style={{elevation: 10 }}> 
+                <Title style={styles.titleStyle}> 
+                     Last Song You Got
+                </Title>
+                <Card style={{elevation: 10, marginTop: 10}}> 
                     <Card.Content>
                         <Title style={styles.titleStyle}> 
                             {this.props.lastSong.title}
