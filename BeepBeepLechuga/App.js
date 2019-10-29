@@ -22,7 +22,7 @@ const screens = {
       )
     }
   },
-  'Last Song ': { 
+  'Last Song': { 
     screen: ReceivedScreen ,
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => (

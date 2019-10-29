@@ -53,7 +53,7 @@ class MainScreen extends Component {
                     <Card.Actions style={styles.cardActionsContainer}> 
                         <Button onPress={async () => {
                             await this.props.swapSong();
-                            this.props.navigation.navigate('Received')
+                            this.props.navigation.navigate('Last Song')
                         }
                         }> 
                             Swap! 

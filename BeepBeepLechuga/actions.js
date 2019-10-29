@@ -107,8 +107,6 @@ export const swapSong = function() {
     }
 }
 
-
-
 export const setTitle = (text) => (
     {
         type: SET_TITLE,
